@@ -18,3 +18,9 @@ v is the number of votes for the movie,
 m is the minimum votes required to be listed in the chart,
 R is the average rating of the movie,
 C is the mean vote across the whole report.
+
+## Streamlit 
+A faster way to build and share data apps.Streamlit turns data scripts into shareable web apps in minutes.All in pure Python. No front‑end experience required.
+
+#### What is Streamlit used for?
+Streamlit is an open source app framework in Python language. It helps us create web apps for data science and machine learning in a short time. It is compatible with major Python libraries such as scikit-learn, Keras, PyTorch, SymPy(latex), NumPy, pandas, Matplotlib etc.
