@@ -101,4 +101,4 @@ st.write(top)
 ```
 ## Result
 
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
+![This is an image](https://github.com/AdarshDhiman11/Movie-Recommendation-System/blob/main/final%20project%20images/Screenshot%20(111).png)
