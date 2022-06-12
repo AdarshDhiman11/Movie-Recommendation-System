@@ -36,3 +36,69 @@ Streamlit is an open source app framework in Python language. It helps us create
 ### Movielens Dataset
 Consists of 26,000,000 ratings and 750,000 tag applications applied to 45,000 movies by 270,000 users. Includes tag genome data with 12 million relevance scores across 1,100 tags.
 
+## Proposed Solution
+
+1. First download the libraries in our system.
+2. Load the dataset by using the .csv file which include all the data of the movies.
+3. Calculate the mean vote by using mean() function.
+4. Calculate the cutoff value (minimum votes required to clear the cutoff to enter the list).
+5. Filter the movies into another DataFrame.
+6. Computing the weighted average using the formula:-
+   (voters/(voters+minimumvote) * avg_vote) + (minimumvote/(minimumvote+voters) * meanvote)
+7. Calculate the score with the weighted average in consideration.
+8. Sort the DataFrame in the descending order.
+9. Printing the top 15 movies.
+
+### Programe:
+```
+# Importing the libraries
+import pandas as pd
+import streamlit as st
+
+# Writing sreamlit codes of title and subheader to show our data on web app
+st.title('Top Movies Recommendation')
+st.subheader('Top 20 movies')
+
+# Loading the dataset
+moviemeta = pd.read_csv('movies_metadata.csv', low_memory=False)
+
+# This will show us the first 4 rows of the dataset file
+moviemeta.head(4)
+
+# This will show us the total number of row
+moviemeta.info()
+
+# Calculating the mean vote 
+meanvote = moviemeta['vote_average'].mean()
+print(meanvote)
+
+# Calculating the cutoff value (minimum votes)
+minimumvote = moviemeta['vote_count'].quantile(0.90)
+print(minimumvote)
+
+# Filter the movies into another DataFrame
+q_movies = moviemeta.copy().loc[moviemeta['vote_count'] >= minimumvote]
+
+# Computing the weighted average using the formula
+def weighted_rating(x, minimumvote=minimumvote, meanvote=meanvote):
+  voters = x['vote_count']
+  avg_vote = x['vote_average']
+  return (voters/(voters+minimumvote) * avg_vote) + (minimumvote/(minimumvote+voters) * meanvote)
+
+# Calculate the score with the weighted average in consideration
+q_movies['score'] = q_movies.apply(weighted_rating, axis=1)
+
+# Sort the DataFrame in the descending order
+q_movies = q_movies.sort_values('score' , ascending=False)
+
+# Printing the top 15 movies
+top=q_movies[['title','vote_count','vote_average','score']].head(20)
+top = top.reset_index()
+top = top.drop(['index'],axis=1)
+
+# Streamlit code to print the data on the web app
+st.write(top)
+```
+## Result
+
+![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
